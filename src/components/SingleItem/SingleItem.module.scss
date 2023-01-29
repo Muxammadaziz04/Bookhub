@@ -1,0 +1,43 @@
+
+
+.box{
+    padding: 70px 0;
+    width: 100%;
+    display: flex;
+    gap: 50px;
+
+    &__image{
+        width: 500px;
+        height: 600px;
+        flex-shrink: 0;
+
+        & > img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__info{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+.text{
+    font-size: 22px;
+    & > span{
+        font-weight: 500;
+    }
+}
+
+.btn{
+    border: none;
+    background: rgb(13 117 255);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: auto;
+}
