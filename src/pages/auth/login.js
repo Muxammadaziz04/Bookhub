@@ -1,5 +1,6 @@
 import { Button, Form, Input } from 'antd'
 import axios from 'axios';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { setCookie } from 'nookies';
 
@@ -62,9 +63,9 @@ const Login = () => {
                             </Button>
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" className="login-form-button">
-                                or Regoster
-                            </Button>
+                            <Link href='/auth/register'>
+                                or Register
+                            </Link>
                         </Form.Item>
                     </Form>
                 </div>
