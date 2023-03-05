@@ -1,4 +1,5 @@
-import COrder from "../components/COrder";
+import dynamic from "next/dynamic";
+const COrder = dynamic(() => import('../components/COrder'), {ssr: false});
 
 const Order = () => {
     return (

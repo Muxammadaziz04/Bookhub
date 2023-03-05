@@ -1,8 +1,7 @@
 import { Button, Form, Input } from 'antd'
-
-const onFinish = values => {
-    console.log('Success:', values);
-  };
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { setCookie } from 'nookies';
 
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
@@ -10,6 +9,19 @@ const onFinish = values => {
 
 
 const Login = () => {
+    const router = useRouter()
+    const onFinish = async values => {
+        console.log('Success:', values);
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_API}/api/auth/local/`, {identifier: values.email, password: values.password})
+        if(res.status === 200) {
+            setCookie(null, 'token', res.data.jwt)
+            setCookie(null, 'user_id', res.data.user.id)
+            setCookie(null, 'clientName', res.data.user.FirstName)
+            router.push('/order')
+        } else {
+            alert('Somethink went wrong')
+        }
+    };
     return (
         <>
             <div className="login-page">
@@ -24,24 +36,7 @@ const Login = () => {
                         onFinishFailed={onFinishFailed}
                     >
                         <p className="form-title">Welcome back</p>
-                        <p>Login to the Dashboard</p>
-                        <Form.Item
-                            name="First name"
-                            rules={[{ required: true, message: 'Please input your username!' }]}
-                        >
-                            <Input
-                                placeholder="First name"
-                            />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="Last name"
-                            rules={[{ required: true, message: 'Please input your username!' }]}
-                        >
-                            <Input
-                                placeholder="Last name"
-                            />
-                        </Form.Item>
+                        <p>Login to the Bookhub</p>
 
                         <Form.Item
                             name="email"
@@ -64,6 +59,11 @@ const Login = () => {
                         <Form.Item>
                             <Button type="primary" htmlType="submit" className="login-form-button">
                                 LOGIN
+                            </Button>
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" className="login-form-button">
+                                or Regoster
                             </Button>
                         </Form.Item>
                     </Form>

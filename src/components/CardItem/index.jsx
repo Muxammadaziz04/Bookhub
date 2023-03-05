@@ -1,18 +1,28 @@
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
+import { cartActions } from '../../store/cart';
 import cls from './CardItem.module.scss'
 
-const CardItem = () => {
+const CardItem = ({
+    id = '',
+    title = '',
+    image = '',
+    year = '',
+    count = 1
+}) => {
+    const dispatch = useDispatch()
+
     return (
         <div className={cls.card}>
-            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20190709182914/Programming-Python.jpg" alt="" />
+            <img src={image} alt={title} />
             <div>
-                <h2>Python </h2>
-                <h3>2009</h3>
+                <h2>{title} </h2>
+                <h3>{year}</h3>
             </div>
             <div className={cls.counter}>
-                <button><PlusOutlined /></button>
-                <span>1</span>
-                <button><MinusOutlined /></button>
+                <button onClick={() => dispatch(cartActions.addCount({id}))}><PlusOutlined /></button>
+                <span>{count}</span>
+                <button onClick={() => dispatch(cartActions.removeCount({id}))}><MinusOutlined /></button>
             </div>
         </div>
     );

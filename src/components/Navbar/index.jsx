@@ -1,15 +1,24 @@
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import Buscket from '../Buscket';
 
 const Navbar = () => {
+    const router = useRouter()
     const [open, setOpen] = useState(false)
+    const handleChange = (e) => {
+        if(e.keyCode === 13) {
+            router.push(`/?search=${e.target.value.trim()}`)
+        }
+    }
     return (
         <nav className="nav">
             <div className="container">
                 <div className="nav__block">
                     <div className="nav__logo">
-                        {/* <img src="./img/nav_logo1.svg" alt="navLogo" /> */}
-                        <h2>Bookhub</h2>
+                        <Link href='/'>
+                            <h2>Bookhub</h2>
+                        </Link>
                     </div>
                     <label className="nav__search">
                         <input
@@ -17,6 +26,7 @@ const Navbar = () => {
                             className="nav__input"
                             id="searchInput"
                             placeholder="Search books"
+                            onKeyUp={handleChange}
                         />
                     </label>
                     <div className="nav__logout">

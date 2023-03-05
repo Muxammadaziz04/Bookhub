@@ -1,10 +1,9 @@
 import { Button, Form, Input } from 'antd'
-// import AnchorLink from 'antd/es/anchor/AnchorLink';
+import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { setCookie } from 'nookies';
 
-const onFinish = values => {
-    console.log('Success:', values);
-};
 
 const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
@@ -12,6 +11,20 @@ const onFinishFailed = errorInfo => {
 
 
 const Login = () => {
+    const router = useRouter()
+    const onFinish = async values => {
+        console.log('Success:', values);
+        console.log(`${process.env.NEXT_PUBLIC_API}/api/auth/local/register`);
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_API}/api/auth/local/register`, values)
+        if(res.status === 200) {
+            setCookie(null, 'token', res.data.jwt)
+            setCookie(null, 'user_id', res.data.user.id)
+            setCookie(null, 'clientName', res.data.user.FirstName)
+            router.back()
+        } else {
+            alert('Somethink went wrong')
+        }
+    };
     return (
         <>
             <div className="login-page">
@@ -25,10 +38,9 @@ const Login = () => {
                         onFinish={onFinish}
                         onFinishFailed={onFinishFailed}
                     >
-                        <p className="form-title">Welcome back</p>
-                        <p>Login to the Dashboard</p>
+                        <p className="form-title" style={{marginBottom: '10px'}}>Welcome to Bookhub</p>
                         <Form.Item
-                            name="First name"
+                            name="FirstName"
                             rules={[{ required: true, message: 'Please input your First name!' }]}
                         >
                             <Input
@@ -37,11 +49,20 @@ const Login = () => {
                         </Form.Item>
 
                         <Form.Item
-                            name="Last name"
+                            name="LastName"
                             rules={[{ required: true, message: 'Please input your last name!' }]}
                         >
                             <Input
                                 placeholder="Last name"
+                            />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="username"
+                            rules={[{ required: true, message: 'Please input your username!' }]}
+                        >
+                            <Input
+                                placeholder="User Name"
                             />
                         </Form.Item>
 
@@ -65,11 +86,11 @@ const Login = () => {
 
                         <Form.Item>
                             <Button type="primary" htmlType="submit" className="login-form-button">
-                                LOGIN
+                                Register
                             </Button>
                         </Form.Item>
                         <Form.Item>
-                            <Link href='/auth/register'><a>or register</a></Link>
+                            <Link href='/auth/login'>or login</Link>
                         </Form.Item>
                     </Form>
                 </div>
