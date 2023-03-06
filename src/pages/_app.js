@@ -6,9 +6,9 @@ import '../styles/globals.css'
 import '../styles/main.min.css'
 
 function MyApp({ Component, pageProps }) {
-  const book = localStorage.getItem('book')
+  const book = typeof window !== 'undefined' && localStorage.getItem('book')
   if(!book){
-    localStorage.setItem('book', JSON.stringify([]))
+    typeof window !== 'undefined' && localStorage.setItem('book', JSON.stringify([]))
   }
   return (
     <>
