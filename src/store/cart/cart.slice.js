@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const saveToLocalST = (arr, item = 'book') => typeof window !== 'undefined' && localStorage.setItem(item, JSON.stringify(arr) || [])
 const removeFromLocalST = (arr, item = book) => typeof window !== 'undefined' && localStorage.removeItem(item)
-const getFromLocalST = (item = 'book') => typeof window !== 'undefined' && JSON.parse(localStorage.getItem(item) || [])
+const getFromLocalST = (item = 'book') => typeof window !== 'undefined' && JSON.parse(localStorage.getItem(item) || JSON.stringify([]))
 
 const initialState = getFromLocalST() || []
 
