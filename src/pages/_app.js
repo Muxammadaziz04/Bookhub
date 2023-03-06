@@ -6,6 +6,10 @@ import '../styles/globals.css'
 import '../styles/main.min.css'
 
 function MyApp({ Component, pageProps }) {
+  const book = localStorage.getItem('book')
+  if(!book){
+    localStorage.setItem('book', JSON.stringify([]))
+  }
   return (
     <>
     <Provider store={store}>
