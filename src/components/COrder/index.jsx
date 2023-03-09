@@ -26,7 +26,7 @@ const COrder = () => {
                 const url = `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TOKEN}/sendMessage`;
                 const tg_params = {
                     chat_id: process.env.NEXT_PUBLIC_CHAT_ID,
-                    text: `*New Order:* \n\n📚 Books: ${items.map(item => item.title)?.join(', ') || ''}\n💵 Summ: ${items?.reduce((acc, book) => acc + book.count * book.summ, 0) || 0}\n📍 Adress: ${data.adress || ''}\n📞 Phone Number: ${data.phoneNumber || ''}\n 👤 Client: ${cookies.clientName}`,
+                    text: `*New Order:* \n\n📚 Books: ${items.map(item => item.title)?.join(', ') || ''}\n💵 Summ: ${items?.reduce((acc, book) => acc + book.count * book.summ, 0) || 0}$\n📍 Adress: ${data.adress || ''}\n📞 Phone Number: ${data.phoneNumber || ''}\n 👤 Client: ${cookies.clientName}`,
                     parse_mode: "Markdown"
                 }
                 await axios.post(url, tg_params)
