@@ -16,39 +16,46 @@ const COrder = () => {
     const dispatch = useDispatch()
 
     const onFinish = async (data) => {
-      try {
-        setLoading(true)
-        const cookies = parseCookies()
-        if(!cookies.token) {
-            router.push('/auth/register')
-        } else {
-
-            const body ={
-                data:  {
-                    summ: items?.reduce((acc, book) => acc + book.count * book.summ, 0),
-                    books: items.map(item => item.id),
-                    user: Number(cookies.user_id),
-                    clientName: cookies.clientName,
-                    ...data
+        try {
+            setLoading(true)
+            const cookies = parseCookies()
+            if (!cookies.token) {
+                router.push('/auth/register')
+            } else {
+                if(items?.length < 1) return alert('You have not yet chosen a book')
+                const url = `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TOKEN}/sendMessage`;
+                const tg_params = {
+                    chat_id: process.env.NEXT_PUBLIC_CHAT_ID,
+                    text: `*New Order:* \n\n📚 Books: ${items.map(item => item.title)?.join(', ') || ''}\n💵 Summ: ${items?.reduce((acc, book) => acc + book.count * book.summ, 0) || 0}\n📍 Adress: ${data.adress || ''}\n📞 Phone Number: ${data.phoneNumber || ''}\n 👤 Client: ${cookies.clientName}`,
+                    parse_mode: "Markdown"
                 }
-            }
-
-            const res = await axios.post(`${process.env.NEXT_PUBLIC_API}/api/orders`, body, {
-                headers: {
-                    Authorization: `Bearer ${cookies.token}`
+                await axios.post(url, tg_params)
+                const body = {
+                    data: {
+                        summ: items?.reduce((acc, book) => acc + book.count * book.summ, 0),
+                        books: items.map(item => item.id),
+                        user: Number(cookies.user_id),
+                        clientName: cookies.clientName,
+                        ...data
+                    }
                 }
-            })
-            
-            if(res.status === 200) {
-                dispatch(cartActions.removeBooks())
+
+                const res = await axios.post(`${process.env.NEXT_PUBLIC_API}/api/orders`, body, {
+                    headers: {
+                        Authorization: `Bearer ${cookies.token}`
+                    }
+                })
+
+                if (res.status === 200) {
+                    dispatch(cartActions.removeBooks())
+                }
+                alert(res.status === 200 ? 'your order is accepted' : "Somethink went wrong")
             }
-            alert(res.status === 200 ? 'your order is accepted' : "Somethink went wrong")
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false)
         }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false)
-      }
     }
     return (
         <div className='container'>
@@ -67,7 +74,7 @@ const COrder = () => {
                             />
                         ) : <h3 style={{ padding: "10px", textAlign: 'center' }}>cart is empty</h3>
                     }
-                    <p style={{margin: "22px"}}>Total: {items?.reduce((acc, book) => acc + (book.summ * book.count), 0)}$</p> 
+                    <p style={{ margin: "22px" }}>Total: {items?.reduce((acc, book) => acc + (book.summ * book.count), 0)}$</p>
                 </div>
                 <div>
                     <Form
@@ -101,7 +108,7 @@ const COrder = () => {
                         </Form.Item>
                     </Form>
                 </div>
-            </div>   
+            </div>
         </div>
     );
 }

@@ -17,7 +17,7 @@ const Login = () => {
         if(res.status === 200) {
             setCookie(null, 'token', res.data.jwt)
             setCookie(null, 'user_id', res.data.user.id)
-            setCookie(null, 'clientName', res.data.user.FirstName)
+            setCookie(null, 'clientName', res.data.user?.FirstName)
             router.push('/order')
         } else {
             alert('Somethink went wrong')

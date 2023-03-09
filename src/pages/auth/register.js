@@ -77,7 +77,7 @@ const Login = () => {
 
                         <Form.Item
                             name="password"
-                            rules={[{ required: true, message: 'Please input your password!' }]}
+                            rules={[{ required: true, message: 'Please input your password!', min: 6}]}
                         >
                             <Input.Password
                                 placeholder="Password"
