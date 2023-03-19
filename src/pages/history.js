@@ -27,7 +27,7 @@ console.log(orders);
                         return (
                             <Panel
                                 key={order?.id}
-                                header={`${order?.attributes?.clientName}, Date: ${data} ${month} ${year} ${hours}:${minutes}, Status: ${order?.attributes?.inProcess ? 'pending' : ''} `}
+                                header={`${order?.attributes?.clientName}, Date: ${data} ${month} ${year} ${hours}:${minutes}, Status: ${order?.attributes?.inProcess ? 'pending' : 'You received an order'} `}
                             >
                                 {
                                     order?.attributes?.books?.data?.length > 0 && order?.attributes?.books?.data.map(book =>
