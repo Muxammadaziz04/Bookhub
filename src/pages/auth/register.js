@@ -14,7 +14,6 @@ const Login = () => {
     const router = useRouter()
     const onFinish = async values => {
         console.log('Success:', values);
-        console.log(`${process.env.NEXT_PUBLIC_API}/api/auth/local/register`);
         const res = await axios.post(`${process.env.NEXT_PUBLIC_API}/api/auth/local/register`, values)
         if(res.status === 200) {
             setCookie(null, 'token', res.data.jwt)

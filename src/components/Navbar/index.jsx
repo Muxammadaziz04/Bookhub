@@ -2,12 +2,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import Buscket from '../Buscket';
+import { HistoryIcon } from '../icons';
 
 const Navbar = () => {
     const router = useRouter()
     const [open, setOpen] = useState(false)
     const handleChange = (e) => {
-        if(e.keyCode === 13) {
+        if (e.keyCode === 13) {
             router.push(`/?search=${e.target.value.trim()}`)
         }
     }
@@ -29,12 +30,17 @@ const Navbar = () => {
                             onKeyUp={handleChange}
                         />
                     </label>
-                    <div className="nav__logout">
-                        <button id="logout" onClick={() => setOpen(state => !state)}>Cart</button>
+                    <div style={{display: "flex"}}>
+                        <div className="nav__logout">
+                            <button id="logout" onClick={() => router.push('/history')}><HistoryIcon /></button>
+                        </div>
+                        <div className="nav__logout">
+                            <button id="logout" onClick={() => setOpen(state => !state)}>Cart</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            {open && <Buscket setOpen={setOpen}/>}
+            {open && <Buscket setOpen={setOpen} />}
         </nav>
     );
 }

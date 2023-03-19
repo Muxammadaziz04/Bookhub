@@ -8,21 +8,23 @@ const CardItem = ({
     title = '',
     image = '',
     year = '',
-    count = 1
+    count = 1,
+    withBtn = true,
+    withImage = true
 }) => {
     const dispatch = useDispatch()
 
     return (
         <div className={cls.card}>
-            <img src={image} alt={title} />
+            {withImage && <img src={image} alt={title} />}
             <div>
                 <h2>{title} </h2>
                 <h3>{year}</h3>
             </div>
             <div className={cls.counter}>
-                <button onClick={() => dispatch(cartActions.addCount({id}))}><PlusOutlined /></button>
+                {withBtn && <button onClick={() => dispatch(cartActions.addCount({id}))}><PlusOutlined /></button>}
                 <span>{count}</span>
-                <button onClick={() => dispatch(cartActions.removeCount({id}))}><MinusOutlined /></button>
+                {withBtn && <button onClick={() => dispatch(cartActions.removeCount({id}))}><MinusOutlined /></button>}
             </div>
         </div>
     );
