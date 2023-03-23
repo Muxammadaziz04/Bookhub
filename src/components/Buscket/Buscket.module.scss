@@ -9,6 +9,7 @@
     background: white;
     display: flex;
     flex-direction: column;
+    z-index: 1000;
 
     &__nav{
         padding: 22px 15px;
