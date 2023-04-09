@@ -2,27 +2,73 @@ import axios from "axios";
 import Image from "next/image";
 import Card from "../components/Card";
 import CardsWrapper from "../components/CardsWrapper";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from 'react-responsive-carousel';
 
 export default function Home({ books = [] }) {
   return (
     <div>
-      <main>
-        <div className="container">
-          <div>
-            <section style={{
-              width: '100%', 
+      <main style={{display: true}}>
+        <Carousel autoPlay={true} infiniteLoop={true} showArrows={false} interval={2500}>
+            <div style={{
+              width: '80%', 
               aspectRatio: "16/5", 
               position: 'relative', 
               borderRadius: '12px',
               overflow: 'hidden',
-              margin: '25px 0'
+              margin: '25px auto'
             }}>
               <Image
                 src='/banner.png'
                 layout="fill"
                 objectFit="cover"
               />
-            </section>
+            </div>
+            <div style={{
+              width: '80%', 
+              aspectRatio: "16/5", 
+              position: 'relative', 
+              borderRadius: '12px',
+              overflow: 'hidden',
+              margin: '25px auto'
+            }}>
+              <Image
+                src='/1.png'
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+            <div style={{
+              width: '80%', 
+              aspectRatio: "16/5", 
+              position: 'relative', 
+              borderRadius: '12px',
+              overflow: 'hidden',
+              margin: '25px auto'
+            }}>
+              <Image
+                src='/2.png'
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+            <div style={{
+              width: '80%', 
+              aspectRatio: "16/5", 
+              position: 'relative', 
+              borderRadius: '12px',
+              overflow: 'hidden',
+              margin: '25px auto'
+            }}>
+              <Image
+                src='/3.jpg'
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+            </Carousel>
+        <div className="container">
+          <div>
             <h1 style={{textAlign: 'center', marginBottom: '25px'}}>Books at your fingertips</h1>
             <section>
               <CardsWrapper>

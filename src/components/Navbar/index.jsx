@@ -43,6 +43,9 @@ const Navbar = () => {
                                 <span className='bugget'>{items.length}</span>
                             </button>
                         </div>
+                        <div className="nav__logout">
+                            <button id="logout" onClick={() => router.push('/auth/login')}>Login</button>
+                        </div>
                     </div>
                 </div>
             </div>
