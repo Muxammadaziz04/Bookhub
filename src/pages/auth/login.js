@@ -3,6 +3,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { setCookie } from 'nookies';
+import toast, { Toaster } from 'react-hot-toast';
 
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
@@ -11,20 +12,31 @@ import { setCookie } from 'nookies';
 
 const Login = () => {
     const router = useRouter()
+
     const onFinish = async values => {
-        console.log('Success:', values);
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_API}/api/auth/local/`, {identifier: values.email, password: values.password})
-        if(res.status === 200) {
-            setCookie(null, 'token', res.data.jwt)
-            setCookie(null, 'user_id', res.data.user.id)
-            setCookie(null, 'clientName', res.data.user?.FirstName)
-            router.push('/order')
-        } else {
-            alert('Somethink went wrong')
+        let res = null
+        try {
+            toast.loading('Loading...')
+            res = await axios.post(`${process.env.NEXT_PUBLIC_API}/api/auth/local/`, {identifier: values.email, password: values.password})
+            if(res.status === 200) {
+                setCookie(null, 'token', res.data.jwt, {path: '/'})
+                setCookie(null, 'user_id', res.data.user.id, {path: '/'})
+                setCookie(null, 'clientName', res.data.user?.FirstName, {path: '/'})
+                router.push('/order')
+            } else {
+                alert('Somethink went wrong')
+            }
+        } catch (error) {
+            
+        } finally {
+            toast.dismiss()
+            res?.status === 200 ? toast.success('Successful logined') : toast.error('Somethink went wrong')
         }
     };
+
     return (
         <>
+        <Toaster />
             <div className="login-page">
                 <div className="login-box">
                     <div className="illustration-wrapper">

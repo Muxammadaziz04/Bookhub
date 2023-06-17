@@ -17,7 +17,7 @@ const History = ({ orders }) => {
             router.push('/auth/login')
         }
     }, [])
-console.log(orders);
+
     return ( 
         <div className="container" style={{ minHeight: '100vh' }}>
             <Collapse>

@@ -1,7 +1,8 @@
 import { Provider } from 'react-redux'
 import { store } from '../store'
-import Layout from '../components/Layout'
+import dynamic from 'next/dynamic'
 import NextNProgress from 'nextjs-progressbar'
+const Layout = dynamic(() => import('../components/Layout'), {ssr: false})
 import '../styles/globals.css'
 import '../styles/main.min.css'
 
@@ -12,6 +13,7 @@ function MyApp({ Component, pageProps }) {
   }
   return (
     <>
+    
     <Provider store={store}>
       <Layout>
         <NextNProgress />
